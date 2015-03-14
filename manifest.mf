@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Main-Class: BitsPlease
+Class-Path: derby.jar derbytools.jar derbyclient.jar derby.client
