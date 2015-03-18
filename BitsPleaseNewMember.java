@@ -210,15 +210,15 @@ public class BitsPleaseNewMember extends JFrame
          {
             setVisible(false);
             dispose();
-            try
+            BitsPleaseAddress ad = new BitsPleaseAddress(sAddressField.getText().trim(), cityField.getText().trim(),
+                                    sta, zCodeField.getText().trim(), phoneField.getText().trim(),aPhoneField.getText().trim());
+            BitsPleaseMembershipType mType = new BitsPleaseMembershipType("member");
+            BitsPleaseMember mem = new BitsPleaseMember(fNameField.getText().trim(), lNameField.getText().trim(), ad, mType, 
+                                    Integer.toString(memNumber).trim());
+            mem.insertToDB();
+            
+           try
            {
-               Statement stmt  = BitsPlease.conn.createStatement();;
-               stmt.execute("INSERT INTO  Members Values ('" +
-                     Integer.toString(memNumber).trim() + "','" + fNameField.getText().trim() + "','" + lNameField.getText().trim() + "','" +
-                     sAddressField.getText().trim() + "','" + cityField.getText().trim() + "'," + sta + ",'" +
-                     zCodeField.getText().trim() + "','" + phoneField.getText().trim() + "','" +
-                     aPhoneField.getText().trim() + "','member')" );
-
                BitsPleaseMainMenu mM = new BitsPleaseMainMenu();
            } 
            catch (Exception x)
