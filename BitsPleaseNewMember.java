@@ -152,8 +152,31 @@ public class BitsPleaseNewMember extends JFrame
       memNumber = random.nextInt(999999 - 100000) + 100000;
       rowFivePanel = new BitsPleaseMMPanel();
       rowFivePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-      String[] stuff={"getRidofThis", "Or Don't You Twat", "WTF is going on", "don't fuck me box"};
-      memOptionBox = new JComboBox<String>(stuff);
+      String[] stuff = null;//={"getRidofThis", "Or Don't You Twat", "WTF is going on", "don't fuck me box"};
+      int i = 0;
+      ResultSet rs = null;
+      try
+      {
+         Statement stmt = BitsPlease.conn.createStatement();;
+         rs = stmt.executeQuery("SELECT COUNT(*) as Total FROM MemPlans");
+         while (rs.next())
+         {
+            stuff = new String[rs.getInt(1)];
+         }
+         stmt.close();
+         stmt = BitsPlease.conn.createStatement();;
+         rs = stmt.executeQuery("SELECT plan_name FROM MemPlans ORDER BY plan_name");
+         while(rs.next())
+         {
+            stuff[i]=rs.getString(1).trim();
+            i++;
+         }
+         memOptionBox = new JComboBox<String>(stuff);
+      }
+      catch(SQLException e)
+      {
+         System.out.println("MemPlans Select: ");
+      }
       memNum = new JLabel("             Member Number:   ");
       memOption = new JLabel("Membership Option:    ");
       mNumField = new JTextField(Integer.toString(memNumber), 10);
@@ -196,6 +219,12 @@ public class BitsPleaseNewMember extends JFrame
          {
             setVisible(false);
             dispose();
+            BitsPleaseAddress ad = new BitsPleaseAddress(sAddressField.getText().trim(), cityField.getText().trim(),
+                                    sta, zCodeField.getText().trim(), phoneField.getText().trim(),aPhoneField.getText().trim());
+            BitsPleaseMembershipType mType = new BitsPleaseMembershipType("member");
+            BitsPleaseMember mem = new BitsPleaseMember(fNameField.getText().trim(), lNameField.getText().trim(), ad, mType, 
+                                    Integer.toString(memNumber).trim());
+            mem.insertToDB();
            try
            {
                

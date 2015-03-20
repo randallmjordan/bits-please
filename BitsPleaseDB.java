@@ -11,11 +11,13 @@ public class BitsPleaseDB
       {
          Connection conn = DriverManager.getConnection(DB_URL);
          
-         dropTables(conn);
+         //dropTables(conn);
          
-         buildUserTable(conn);
+         //buildUserTable(conn);
          
-         buildMembersTable(conn);
+         //buildMembersTable(conn);
+         
+         buildMemTypeTable(conn);
          
          conn.close();
       }
@@ -33,8 +35,9 @@ public class BitsPleaseDB
          
          try
          {
-            stmt.execute("DROP TABLE Users");
-            stmt.execute("DROP TABLE Members");
+            //stmt.execute("DROP TABLE Users");
+            //stmt.execute("DROP TABLE Members");
+            stmt.execute("DROP TABLE MemPlans");
             System.out.println("Users table dropped");
          }
          catch(SQLException e)
@@ -96,4 +99,26 @@ public class BitsPleaseDB
       } 
       System.out.println("Members  table created.");
    }
+   public static void buildMemTypeTable(Connection conn)
+   {
+      try
+      {
+         Statement stmt = conn.createStatement();
+         
+         /*stmt.execute("CREATE table MemPlans (" +
+                      "plan_name Char(30) NOT NULL PRIMARY KEY," +
+                      "description VarChar(255)," +
+                      "cost Char(10)," +
+                      "start_date Char(15)," +
+                      "end_date Char(15))");*/
+           
+         stmt.execute("INSERT INTO MemPlans VALUES ('Free Trial', 'A free look at what the Gym offers.'," +
+                       "'00.00', '3/19/2015', '3/20/2099')");
+      }
+      catch (SQLException e)
+      {
+         System.out.println("MemType Error:" + e.getMessage());
+      }
+   }
+   
 }

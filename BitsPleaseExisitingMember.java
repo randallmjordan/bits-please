@@ -13,13 +13,13 @@ public class BitsPleaseExisitingMember extends JFrame
    final int WINDOW_WIDTH=1024;
    final int WINDOW_HEIGHT=768;
    private Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-   private JButton save, saveAndClose, addAnotherMember, cancel;
+   private JButton save, edit, close;
    private JList<String> memList;
    private JScrollPane scroll;
    private JComboBox<String> stateBox, memOptionBox;
    private JLabel pageLabel,firstName, lastName, birthDate, streetAddress, city, zipCode, phone, state, memOption,altPhone, memNum;
    private JPanel listPanel, topPanel,rowZeroPanel,rowOnePanel, rowTwoPanel, rowThreePanel, rowFourPanel, rowFivePanel,
-           rowSixPanel,testPanel;
+           rowSixPanel,testPanel, billPanel;
    private JTextField fNameField, lNameField, bDateField, sAddressField, cityField, zCodeField, phoneField, aPhoneField, mNumField;
    private static final long serialVersionUID = 7227575264622776147L; //added to get rid of serializable warning
    
@@ -57,6 +57,8 @@ public class BitsPleaseExisitingMember extends JFrame
       rowFivePanel.setBounds(220,420,784,75);
       buildRowSix();
       rowSixPanel.setBounds(220,653,784,75);
+      buildBillPanel();
+      billPanel.setBounds(220,495,784,158);
                  
       add(listPanel);
       //add(topPanel);
@@ -66,7 +68,8 @@ public class BitsPleaseExisitingMember extends JFrame
       add(rowThreePanel);
       add(rowFourPanel);
       add(rowFivePanel);
-      add(rowSixPanel);    
+      add(rowSixPanel);
+      add(billPanel);    
       setVisible(true);
    }
    private void buildMemList()
@@ -213,8 +216,32 @@ public class BitsPleaseExisitingMember extends JFrame
       rowFivePanel = new JPanel();
       rowFivePanel.setBackground(new Color(255,229,153));
       rowFivePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-      String[] stuff={"getRidofThis", "Or Don't You Twat", "WTF is going on", "don't fuck me box"};
-      memOptionBox = new JComboBox<String>(stuff);
+      String[] stuff= null; //{"getRidofThis", "Or Don't You Twat", "WTF is going on", "don't fuck me box"};
+      int i = 0;
+      ResultSet rs = null;
+      try
+      {
+         Statement stmt = BitsPlease.conn.createStatement();;
+         rs = stmt.executeQuery("SELECT COUNT(*) as Total FROM MemPlans");
+         while (rs.next())
+         {
+            stuff = new String[rs.getInt(1)];
+         }
+         stmt.close();
+         stmt = BitsPlease.conn.createStatement();;
+         rs = stmt.executeQuery("SELECT plan_name FROM MemPlans ORDER BY plan_name");
+         while(rs.next())
+         {
+            stuff[i]=rs.getString(1).trim();
+            i++;
+         }
+         memOptionBox = new JComboBox<String>(stuff);
+      }
+      catch(SQLException e)
+      {
+         System.out.println("MemPlans Select: ");
+      }
+      
       memNum = new JLabel("             Member Number:   ");
       memOption = new JLabel("Membership Option:    ");
       mNumField = new JTextField(Integer.toString(memNumber), 10);
@@ -230,18 +257,19 @@ public class BitsPleaseExisitingMember extends JFrame
       rowSixPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
       save = new JButton("Save");
       save.addActionListener(new ButtonListener());
-      saveAndClose = new JButton("Save & Close");
-      saveAndClose.addActionListener(new ButtonListener());
-      addAnotherMember = new JButton("Add Another Member");
-      addAnotherMember.addActionListener(new ButtonListener());
-      cancel = new JButton("Cancel");
-      cancel.addActionListener(new ButtonListener());
-      rowSixPanel.add(save);     
-      rowSixPanel.add(saveAndClose);
-      rowSixPanel.add(addAnotherMember);
-      rowSixPanel.add(cancel);
+      edit = new JButton("Edit");
+      //edit.addActionListener(new ButtonListener());
+      close = new JButton("Close");
+      close.addActionListener(new ButtonListener());
+      rowSixPanel.add(edit);     
+      rowSixPanel.add(save);
+      rowSixPanel.add(close);
    }
-   
+   private void buildBillPanel()
+   {
+      billPanel = new JPanel();
+      billPanel.setBackground(new Color(255,229,153));
+   }
    private class ListListener implements ListSelectionListener
    {
       public void valueChanged(ListSelectionEvent e)
@@ -258,6 +286,7 @@ public class BitsPleaseExisitingMember extends JFrame
          String ph = "";
          String aPH = "";
          String mNum ="";
+         String mOption = "";
          ResultSet rs = null;
          
          try
@@ -273,11 +302,12 @@ public class BitsPleaseExisitingMember extends JFrame
                lN = rs.getString(3);
                ad = rs.getString(4);
                city = rs.getString(5);
-               st = rs.getString(6);
+               st = rs.getString(6).trim();
                zCode = rs.getString(7);
                ph = rs.getString(8);
                aPH = rs.getString(9);
-               
+               mOption = rs.getString(10).trim();
+               System.out.println(rs.getString(6)+ "|");
             }
          }
          catch(SQLException ex)
@@ -293,6 +323,7 @@ public class BitsPleaseExisitingMember extends JFrame
          phoneField.setText(ph);
          aPhoneField.setText(aPH);
          mNumField.setText(mNum);
+         memOptionBox.setSelectedItem(mOption);
          
       }
    }
@@ -300,17 +331,51 @@ public class BitsPleaseExisitingMember extends JFrame
    {
       public void actionPerformed(ActionEvent e)
       {
-         setVisible(false);
-         dispose();
-         //JOptionPane.showMessageDialog(null, "Good Job, " + userNameField.getText());
-        try
-        {
-            BitsPleaseMainMenu menu = new BitsPleaseMainMenu();
-        } 
-        catch (Exception x)
-        {
-        
-        }
+         
+         String actionCommand = e.getActionCommand();
+         if (actionCommand.equals("Edit"))
+         {
+         
+         }
+         else if (actionCommand.equals("Save"))
+         {
+           try
+           {
+               Statement stmt  = BitsPlease.conn.createStatement();;
+               stmt.execute("UPDATE Members SET firstName ='" + fNameField.getText().trim() +
+                            "', lastName ='" + lNameField.getText().trim() +
+                            "', address ='" + sAddressField.getText().trim() +
+                            "', city ='" + cityField.getText().trim() +
+                            "', state ='" + stateBox.getSelectedItem().toString() +
+                            "', zipCode ='" + zCodeField.getText().trim() +
+                            "', phone ='" + phoneField.getText().trim() +
+                            "', aPhone ='" + aPhoneField.getText().trim() + 
+                            "', memOption ='" + memOptionBox.getSelectedItem().toString() +
+                            "' WHERE memID ='" + mNumField.getText().trim() + "'");
+              
+           } 
+           catch (Exception x)
+           {
+               System.out.println("Update member:" + x);
+           }
+
+            
+         }
+         else if(actionCommand.equals("Close"))
+         {
+            setVisible(false);
+               dispose();
+               //JOptionPane.showMessageDialog(null, "Good Job, " + userNameField.getText());
+               try
+               {
+                  BitsPleaseMainMenu menu = new BitsPleaseMainMenu();
+               } 
+               catch (Exception x)
+               {
+              
+               }
+
+         }
       }  
    }
 }
