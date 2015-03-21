@@ -11,7 +11,9 @@ public class BitsPleaseEmployees extends JFrame
    final int WINDOW_WIDTH=1024;
    final int WINDOW_HEIGHT=768;
    private Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-   private JButton returnHome;
+   private BitsPleaseMMPanel employeePanel, eCenterPanel, eTopPanel, eBottomPanel;  
+   private BitsPleaseMMButton cEmployeeButton, nEmployeeButton, mainMenuButton;
+   private JLabel pageLabel, optionLabel;
    private static final long serialVersionUID = 7227575264622776147L; //added to get rid of serializable warning
       
    public BitsPleaseEmployees() throws IOException, SQLException
@@ -28,29 +30,93 @@ public class BitsPleaseEmployees extends JFrame
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       
       setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+      buildPageLabel();
+      pageLabel.setBounds(280, 30, 600, 100);
+      buildEmployeePanel();
+      employeePanel.setBounds(379, 150, 266,333);
       
-      returnHome = new JButton("Main Menu");
-      returnHome.addActionListener(new ButtonListener());
-      returnHome.setBounds(650, 50, 98, 27);
-      add(returnHome);
-      
+      add(pageLabel);
+      add(employeePanel);
+            
       setVisible(true);
+   }
+   private void buildPageLabel()
+   {
+      pageLabel = new JLabel("BP Employee MGMT");
+      pageLabel.setFont(new Font("Serif", Font.PLAIN, 50));
+   }
+   private void buildEmployeePanel()
+   {
+      cEmployeeButton = new BitsPleaseMMButton("Current Employees");
+      cEmployeeButton.addActionListener(new ButtonListener());
+      nEmployeeButton = new BitsPleaseMMButton("New Employee");
+      nEmployeeButton.addActionListener(new ButtonListener());
+      mainMenuButton = new BitsPleaseMMButton("Main Menu");
+      mainMenuButton.addActionListener(new ButtonListener());
+      employeePanel = new BitsPleaseMMPanel();
+      eTopPanel = new BitsPleaseMMPanel();
+      eCenterPanel = new BitsPleaseMMPanel();
+      eBottomPanel = new BitsPleaseMMPanel();
+      
+      employeePanel.setLayout(new BorderLayout());
+      employeePanel.setPreferredSize(new Dimension (266,290));
+           
+      eTopPanel.add(cEmployeeButton);
+      employeePanel.add(eTopPanel, BorderLayout.NORTH);
+      eCenterPanel.add(nEmployeeButton);
+      employeePanel.add(eCenterPanel, BorderLayout.CENTER);
+      eBottomPanel.add(mainMenuButton);
+      employeePanel.add(eBottomPanel, BorderLayout.SOUTH);
    }
    private class ButtonListener implements ActionListener
    {
       public void actionPerformed(ActionEvent e)
       {
-         setVisible(false);
-         dispose();
-         //JOptionPane.showMessageDialog(null, "Good Job, " + userNameField.getText());
-        try
-        {
-            BitsPleaseMainMenu menu = new BitsPleaseMainMenu();
-        } 
-        catch (Exception x)
-        {
-        
-        }
+         String actionCommand = e.getActionCommand();
+         
+         if(actionCommand.equals("Main Menu"))
+         {
+            setVisible(false);
+            dispose();
+            
+           try
+           {
+               BitsPleaseMainMenu menu = new BitsPleaseMainMenu();
+           } 
+           catch (Exception x)
+           {
+           
+           }
+         }
+         else if (actionCommand.equals("New Employee Options"))
+         {
+            setVisible(false);
+            dispose();
+            
+           try
+           {
+               BitsPleaseNewEmployee nEmp = new BitsPleaseNewEmployee();
+           } 
+           catch (Exception x)
+           {
+           
+           }
+
+         }
+         else if (actionCommand.equals("Current Employees"))
+         {
+            setVisible(false);
+            dispose();
+            
+            try
+            {
+               BitsPleaseEmployeeRecords eRec = new BitsPleaseEmployeeRecords();
+            }
+            catch (Exception x)
+            {
+            
+            }
+         }
       }  
    }
 }

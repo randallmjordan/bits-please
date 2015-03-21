@@ -15,9 +15,11 @@ public class BitsPleaseDB
          
          //buildUserTable(conn);
          
-         buildMembersTable(conn);
+         //buildMembersTable(conn);
          
          //buildMemTypeTable(conn);
+         
+         buildEmployeeTable(conn);
          
          conn.close();
       }
@@ -36,8 +38,9 @@ public class BitsPleaseDB
          try
          {
             //stmt.execute("DROP TABLE Users");
-            stmt.execute("DROP TABLE Members");
+            //stmt.execute("DROP TABLE Members");
             //stmt.execute("DROP TABLE MemPlans");
+            stmt.execute("DROP TABLE Employees");
             System.out.println(" table dropped");
          }
          catch(SQLException e)
@@ -101,6 +104,33 @@ public class BitsPleaseDB
          System.out.println("ERROR1: " + e.getMessage());
       } 
       System.out.println("Members  table created.");
+   }
+   public static void buildEmployeeTable(Connection conn)
+   {
+      try
+      {
+         Statement stmt = conn.createStatement();
+         
+         stmt.execute("CREATE TABLE Employees (" +
+                      "emID Char(10) NOT NULL PRIMARY KEY," +
+                      "firstName Char(50) NOT NULL," +
+                      "lastName Char(50) NOT NULL," +
+                      "address Char(75)," +
+                      "city Char(20)," +
+                      "state Char(20)," +
+                      "zipCode Char(10)," +
+                      "phone Char(15)," +
+                      "aPhone Char(15)," +
+                      "bDate Char(10)," +
+                      "hDate Char(10)," +
+                      "title Char(50)," + 
+                      "sex Char(7))");
+      }
+      catch(SQLException e)
+      {
+         System.out.println("ERROR emp: " + e.getMessage());
+      } 
+      System.out.println("Employee  table created.");
    }
    public static void buildMemTypeTable(Connection conn)
    {

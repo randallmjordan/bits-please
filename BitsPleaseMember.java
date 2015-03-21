@@ -22,7 +22,6 @@ public class BitsPleaseMember extends BitsPleasePerson
       memNumber = mNum;
       birthDate = bDay;
       activeDate = aDay;
-      
    }
    public void insertToDB()
    {
