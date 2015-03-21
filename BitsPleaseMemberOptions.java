@@ -6,6 +6,9 @@ import java.io.*;
 import javax.imageio.*;
 import java.awt.image.BufferedImage;
 import java.awt.event.*;
+import java.util.*;
+import java.util.Date;
+import java.text.*;
 
 public class BitsPleaseMemberOptions extends JFrame
 {
@@ -15,12 +18,13 @@ public class BitsPleaseMemberOptions extends JFrame
    private JList<String> planList;
    private JScrollPane scroll;
    private JLabel pageLabel, planName, planDesc, planCost, planStartDate, planEndDate;
-   private JPanel listPanel,rowZeroPanel, rowOnePanel, rowTwoPanel, rowThreePanel, rowFourPanel, rowFivePanel;
+   private JPanel listPanel,rowZeroPanel, rowOnePanel, rowTwoPanel, rowThreePanel, rowFourPanel, rowFivePanel, fillerPanel;
    private JTextField planNameField, planDescField, planCostField, planSDateField, planEDateField; 
    private JButton createNew, save, close;
    private String value = "";
    private static final long serialVersionUID = 7227575264622776147L; //added to get rid of serializable warning
-   
+   private String[] plans = null;
+   private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
    public BitsPleaseMemberOptions() throws IOException, SQLException
    {
       
@@ -50,6 +54,8 @@ public class BitsPleaseMemberOptions extends JFrame
       rowFourPanel.setBounds(220,345,784,75);
       buildRowFive();
       rowFivePanel.setBounds(220,653,784,75);
+      buildFillerPanel();
+      fillerPanel.setBounds(220,420,784,233);
       
       add(listPanel);
       add(rowZeroPanel);
@@ -58,12 +64,12 @@ public class BitsPleaseMemberOptions extends JFrame
       add(rowThreePanel);
       add(rowFourPanel);
       add(rowFivePanel);
+      add(fillerPanel);
       
       setVisible(true);
    }
    private void buildPlanList()
    {
-      String[] plans = null;
       int i = 0;
       ResultSet rs = null;
       
@@ -146,8 +152,8 @@ public class BitsPleaseMemberOptions extends JFrame
       rowFourPanel = new JPanel();
       rowFourPanel.setBackground(new Color(255,229,153));
       rowFourPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-      planStartDate = new JLabel("Start Date:                ");
-      planEndDate = new JLabel("       End Date     ");
+      planStartDate = new JLabel("Start Date (yyyy-mm-dd):       ");
+      planEndDate = new JLabel("       End Date (yyyy-mm-dd)   ");
       planSDateField = new JTextField(15);
       planEDateField = new JTextField(15);
       rowFourPanel.add(planStartDate);
@@ -169,6 +175,11 @@ public class BitsPleaseMemberOptions extends JFrame
       rowFivePanel.add(createNew);     
       rowFivePanel.add(save);
       rowFivePanel.add(close);
+   }
+   private void buildFillerPanel()
+   {
+      fillerPanel = new JPanel();
+      fillerPanel.setBackground(new Color(255,229,153));
    }
    private class ListListener implements ListSelectionListener
    {
@@ -205,6 +216,36 @@ public class BitsPleaseMemberOptions extends JFrame
          planEDateField.setText(pEDate);
       }
    }
+   private boolean checkDate(String s)
+   {
+      //not doing Leap Years
+      int month = Integer.parseInt(s.substring(5,7));
+      int day = Integer.parseInt(s.substring(8,10));
+      if (month > 12)
+      {
+         JOptionPane.showMessageDialog(null, month +" is not appropriate Month #","ILLEGAL MONTH", JOptionPane.ERROR_MESSAGE);
+         return false;
+      }
+      if (day > 31)
+      {
+         JOptionPane.showMessageDialog(null,"There are not " + day +
+                                       " days in month " + month,"ILLEGAL", JOptionPane.ERROR_MESSAGE);
+         return false;
+      }
+      else if ( day > 30 && (month == 4 || month == 6 || month == 9 || month == 11))
+      {
+         JOptionPane.showMessageDialog(null,"There are not " + day +
+                                       " days in month " + month,"ILLEGAL", JOptionPane.ERROR_MESSAGE);
+         return false;
+      }
+      else if ( day > 28 && month == 2)
+      {
+         JOptionPane.showMessageDialog(null,"There are not " + day +
+                                       " days in month " + month,"ILLEGAL", JOptionPane.ERROR_MESSAGE);
+         return false;
+      }
+      return true;
+   }
    private class ButtonListener implements ActionListener
    {
       public void actionPerformed(ActionEvent e)
@@ -223,13 +264,48 @@ public class BitsPleaseMemberOptions extends JFrame
             try
             {
                Statement stmt = BitsPlease.conn.createStatement();;
-               
-               stmt.execute("UPDATE MemPlans SET plan_name ='" + planNameField.getText().trim() +
-                            "', description ='" + planDescField.getText().trim() +
-                            "', cost ='" + planCostField.getText().trim() +
-                            "', start_date ='" + planSDateField.getText().trim() +
-                            "', end_date ='" + planEDateField.getText().trim() +
-                            "' WHERE plan_name ='" + value + "'");
+               try
+            {
+               Date date = dateFormat.parse(planSDateField.getText());
+               date = dateFormat.parse(planEDateField.getText());
+            }
+            catch (ParseException p)
+            {
+               JOptionPane.showMessageDialog(null, "Please use date format yyyy-dd-mm","ILLEGAL FORMAT", JOptionPane.ERROR_MESSAGE);
+               return;
+            }
+            if (!(checkDate(planSDateField.getText())) || !(checkDate(planEDateField.getText())))
+            {
+               return;
+            }
+               if (Arrays.asList(plans).contains(planNameField.getText().trim()))
+               {
+                  stmt.execute("UPDATE MemPlans SET plan_name ='" + planNameField.getText().trim() +
+                               "', description ='" + planDescField.getText().trim() +
+                               "', cost ='" + planCostField.getText().trim() +
+                               "', start_date ='" + planSDateField.getText().trim() +
+                               "', end_date ='" + planEDateField.getText().trim() +
+                               "' WHERE plan_name ='" + value + "'");
+                 
+               }
+               else
+               {
+                    stmt.execute("INSERT INTO MemPlans VALUES ('" + planNameField.getText().trim() +
+                               "','" + planDescField.getText().trim() +
+                               "','" + planCostField.getText().trim() +
+                               "','" + planSDateField.getText().trim() +
+                               "','" + planEDateField.getText().trim() +
+                               "')");
+                    setVisible(false);
+                    dispose();
+                    try
+                    {
+                        BitsPleaseMemberOptions memOpts = new BitsPleaseMemberOptions();
+                    }
+                    catch (Exception k)
+                    {
+                    }
+               }
             }
             catch (SQLException ee)
             {

@@ -11,13 +11,13 @@ public class BitsPleaseDB
       {
          Connection conn = DriverManager.getConnection(DB_URL);
          
-         //dropTables(conn);
+         dropTables(conn);
          
          //buildUserTable(conn);
          
-         //buildMembersTable(conn);
+         buildMembersTable(conn);
          
-         buildMemTypeTable(conn);
+         //buildMemTypeTable(conn);
          
          conn.close();
       }
@@ -36,9 +36,9 @@ public class BitsPleaseDB
          try
          {
             //stmt.execute("DROP TABLE Users");
-            //stmt.execute("DROP TABLE Members");
-            stmt.execute("DROP TABLE MemPlans");
-            System.out.println("Users table dropped");
+            stmt.execute("DROP TABLE Members");
+            //stmt.execute("DROP TABLE MemPlans");
+            System.out.println(" table dropped");
          }
          catch(SQLException e)
          {
@@ -88,7 +88,10 @@ public class BitsPleaseDB
                       "zipCode Char(10)," +
                       "phone Char(15)," +
                       "aPhone Char(15)," +
-                      "memOption Char(25))");
+                      "memOption Char(25)," +
+                      "bDate Char(10)," +
+                      "aDate Char(10)," + 
+                      "sex Char(7))");
          
          //stmt.execute("INSERT INTO Users VALUES (" +
                      // "'admin', '123456')");

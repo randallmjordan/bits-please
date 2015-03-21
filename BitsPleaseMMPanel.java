@@ -10,4 +10,8 @@ public class BitsPleaseMMPanel extends JPanel
    {
       super.setBackground(new Color(204,204,204,150));
    }
+   public void setBG()
+   {
+      super.setBackground(new Color(204,204,204,150));
+   }
 }

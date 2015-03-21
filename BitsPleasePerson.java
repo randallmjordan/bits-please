@@ -2,7 +2,7 @@ public class BitsPleasePerson
 {
    String firstName;
    String lastName;
-   private String sex;
+   String sex;
    //left out birthday stuff for now.
    
    public BitsPleasePerson()

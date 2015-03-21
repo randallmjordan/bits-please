@@ -5,22 +5,23 @@ public class BitsPleaseMember extends BitsPleasePerson
    private BitsPleaseAddress address;
    private BitsPleaseMembershipType membType;
    //private BitsPleaseBill bill;
-   private String memNumber;
-    
-   
+   private String memNumber, birthDate, activeDate;
+      
    public BitsPleaseMember()
    {
    
    }
    public BitsPleaseMember(String fName, String lName, BitsPleaseAddress ad, BitsPleaseMembershipType mType,
-                             String mNum)
+                             String mNum, String bDay, String aDay, String sx)
    {
       super.firstName= fName;
       super.lastName = lName;
+      super.sex = sx;
       address = ad;
       membType = mType;
       memNumber = mNum;
-      
+      birthDate = bDay;
+      activeDate = aDay;
       
    }
    public void insertToDB()
@@ -32,7 +33,8 @@ public class BitsPleaseMember extends BitsPleasePerson
                      memNumber + "','" + firstName + "','" + lastName + "','" +
                      address.getStAddress() + "','" + address.getCity() + "','" + address.getState() + "','" +
                      address.getZipCode() + "','" + address.getPhoneNum() + "','" +
-                     address.getAltPhoneNum() + "','" + membType.getName()  +"')" );
+                     address.getAltPhoneNum() + "','" + membType.getName()  + "','" +
+                     birthDate + "','" + activeDate + "','" + sex + "')" );
               
            } 
            catch (Exception x)

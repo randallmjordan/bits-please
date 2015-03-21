@@ -6,7 +6,8 @@ import java.io.*;
 import javax.imageio.*;
 import java.awt.image.BufferedImage;
 import java.awt.event.*;
-import java.util.Random;
+import java.text.*;
+import java.util.Date;
 
 public class BitsPleaseExisitingMember extends JFrame
 {
@@ -16,13 +17,16 @@ public class BitsPleaseExisitingMember extends JFrame
    private JButton save, edit, close;
    private JList<String> memList;
    private JScrollPane scroll;
-   private JComboBox<String> stateBox, memOptionBox;
-   private JLabel pageLabel,firstName, lastName, birthDate, streetAddress, city, zipCode, phone, state, memOption,altPhone, memNum;
+   private JComboBox<String> stateBox, sexBox, memOptionBox;
+   private JLabel pageLabel,genderLabel, firstName, lastName, birthDate, streetAddress, city, zipCode, phone, state, memOption,
+           altPhone, memNum, activeDate;
    private JPanel listPanel, topPanel,rowZeroPanel,rowOnePanel, rowTwoPanel, rowThreePanel, rowFourPanel, rowFivePanel,
-           rowSixPanel,testPanel, billPanel;
-   private JTextField fNameField, lNameField, bDateField, sAddressField, cityField, zCodeField, phoneField, aPhoneField, mNumField;
+           rowSixPanel,datesPanel, billPanel;
+   private JTextField fNameField, lNameField,
+    sAddressField, cityField, zCodeField, phoneField, aPhoneField, 
+           mNumField, bDateField, aDateField;
    private static final long serialVersionUID = 7227575264622776147L; //added to get rid of serializable warning
-   
+   private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
    public BitsPleaseExisitingMember() throws IOException, SQLException
    {
       
@@ -57,8 +61,10 @@ public class BitsPleaseExisitingMember extends JFrame
       rowFivePanel.setBounds(220,420,784,75);
       buildRowSix();
       rowSixPanel.setBounds(220,653,784,75);
+      buildDatesPanel();
+      datesPanel.setBounds(220, 495,784,75);
       buildBillPanel();
-      billPanel.setBounds(220,495,784,158);
+      billPanel.setBounds(220,570,784,83);
                  
       add(listPanel);
       //add(topPanel);
@@ -69,20 +75,12 @@ public class BitsPleaseExisitingMember extends JFrame
       add(rowFourPanel);
       add(rowFivePanel);
       add(rowSixPanel);
-      add(billPanel);    
+      add(billPanel); 
+      add(datesPanel);   
       setVisible(true);
    }
    private void buildMemList()
    {  
-      /*String[] names={
-                        "Bunny Buggs",  
-                        "Cat, Sylvester ",      
-                        "Coyote, Willie E. ",   
-                        "Devil, Tasmanian",     
-                        "Duck, Daffy",  
-                        "Fudd, Elmer",  
-                        "LePew, Pepe",  
-                        "Martian, MArvin"};*/
        String[] names = null;
        int i = 0;  
          ResultSet rs = null;
@@ -129,6 +127,21 @@ public class BitsPleaseExisitingMember extends JFrame
       
       
       listPanel.add(scroll,BorderLayout.CENTER);
+   }
+   private void buildDatesPanel()
+   {
+      datesPanel = new JPanel();
+      datesPanel.setBackground(new Color(255,229,153));
+      datesPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+      birthDate = new JLabel("Birth Date:          ");
+      activeDate = new JLabel("     Active Date:       ");
+      bDateField = new JTextField(10);
+      aDateField = new JTextField(10);
+      datesPanel.add(birthDate);
+      datesPanel.add(bDateField);
+      datesPanel.add(activeDate);
+      datesPanel.add(aDateField);
+      
    }
    private void buildPane()
    {
@@ -211,12 +224,13 @@ public class BitsPleaseExisitingMember extends JFrame
    }
    private void buildRowFive()
    {
-      Random random = new Random();
-      int memNumber = random.nextInt(999999 - 100000) + 100000;
       rowFivePanel = new JPanel();
       rowFivePanel.setBackground(new Color(255,229,153));
       rowFivePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-      String[] stuff= null; //{"getRidofThis", "Or Don't You Twat", "WTF is going on", "don't fuck me box"};
+      String[] gender = {"male", "female", " ", " ", " "};
+      sexBox = new JComboBox<String>(gender);
+      genderLabel = new JLabel("Gender:         ");
+      String[] stuff= null; 
       int i = 0;
       ResultSet rs = null;
       try
@@ -239,12 +253,14 @@ public class BitsPleaseExisitingMember extends JFrame
       }
       catch(SQLException e)
       {
-         System.out.println("MemPlans Select: ");
+         System.out.println("        MemPlans Select: ");
       }
       
-      memNum = new JLabel("             Member Number:   ");
-      memOption = new JLabel("Membership Option:    ");
-      mNumField = new JTextField(Integer.toString(memNumber), 10);
+      memNum = new JLabel("        Member Number:   ");
+      memOption = new JLabel("      Membership Option:    ");
+      mNumField = new JTextField(10);
+      rowFivePanel.add(genderLabel);
+      rowFivePanel.add(sexBox);
       rowFivePanel.add(memOption);
       rowFivePanel.add(memOptionBox);
       rowFivePanel.add(memNum);
@@ -270,6 +286,37 @@ public class BitsPleaseExisitingMember extends JFrame
       billPanel = new JPanel();
       billPanel.setBackground(new Color(255,229,153));
    }
+   private boolean checkDate(String s)
+   {
+      //not doing Leap Years
+      int month = Integer.parseInt(s.substring(5,7));
+      int day = Integer.parseInt(s.substring(8,10));
+      if (month > 12)
+      {
+         JOptionPane.showMessageDialog(null, month +" is not appropriate Month #","ILLEGAL MONTH", JOptionPane.ERROR_MESSAGE);
+         return false;
+      }
+      if (day > 31)
+      {
+         JOptionPane.showMessageDialog(null,"There are not " + day +
+                                       " days in month " + month,"ILLEGAL", JOptionPane.ERROR_MESSAGE);
+         return false;
+      }
+      else if ( day > 30 && (month == 4 || month == 6 || month == 9 || month == 11))
+      {
+         JOptionPane.showMessageDialog(null,"There are not " + day +
+                                       " days in month " + month,"ILLEGAL", JOptionPane.ERROR_MESSAGE);
+         return false;
+      }
+      else if ( day > 28 && month == 2)
+      {
+         JOptionPane.showMessageDialog(null,"There are not " + day +
+                                       " days in month " + month,"ILLEGAL", JOptionPane.ERROR_MESSAGE);
+         return false;
+      }
+      return true;
+   }
+
    private class ListListener implements ListSelectionListener
    {
       public void valueChanged(ListSelectionEvent e)
@@ -287,6 +334,9 @@ public class BitsPleaseExisitingMember extends JFrame
          String aPH = "";
          String mNum ="";
          String mOption = "";
+         String bD = "";
+         String aD = "";
+         String sx = "";
          ResultSet rs = null;
          
          try
@@ -307,7 +357,9 @@ public class BitsPleaseExisitingMember extends JFrame
                ph = rs.getString(8);
                aPH = rs.getString(9);
                mOption = rs.getString(10).trim();
-               System.out.println(rs.getString(6)+ "|");
+               bD = rs.getString(11).trim();
+               aD = rs.getString(12).trim();
+               sx = rs.getString(13).trim();
             }
          }
          catch(SQLException ex)
@@ -324,7 +376,9 @@ public class BitsPleaseExisitingMember extends JFrame
          aPhoneField.setText(aPH);
          mNumField.setText(mNum);
          memOptionBox.setSelectedItem(mOption);
-         
+         bDateField.setText(bD);
+         aDateField.setText(aD);
+         sexBox.setSelectedItem(sx);
       }
    }
    private class ButtonListener implements ActionListener
@@ -339,6 +393,21 @@ public class BitsPleaseExisitingMember extends JFrame
          }
          else if (actionCommand.equals("Save"))
          {
+            try
+            {
+               Date date = dateFormat.parse(bDateField.getText());
+               date = dateFormat.parse(aDateField.getText());
+            }
+            catch (ParseException p)
+            {
+               JOptionPane.showMessageDialog(null, "Please use date format yyyy-dd-mm","ILLEGAL FORMAT", JOptionPane.ERROR_MESSAGE);
+               return;
+            }
+            if (!(checkDate(bDateField.getText())) || !(checkDate(aDateField.getText())))
+            {
+               return;
+            }
+
            try
            {
                Statement stmt  = BitsPlease.conn.createStatement();;
@@ -351,6 +420,9 @@ public class BitsPleaseExisitingMember extends JFrame
                             "', phone ='" + phoneField.getText().trim() +
                             "', aPhone ='" + aPhoneField.getText().trim() + 
                             "', memOption ='" + memOptionBox.getSelectedItem().toString() +
+                            "', bDate ='" + bDateField.getText().trim() +
+                            "', aDate ='" + aDateField.getText().trim() +
+                            "', sex ='" + sexBox.getSelectedItem().toString() +
                             "' WHERE memID ='" + mNumField.getText().trim() + "'");
               
            } 
@@ -363,9 +435,9 @@ public class BitsPleaseExisitingMember extends JFrame
          }
          else if(actionCommand.equals("Close"))
          {
-            setVisible(false);
+               setVisible(false);
                dispose();
-               //JOptionPane.showMessageDialog(null, "Good Job, " + userNameField.getText());
+               
                try
                {
                   BitsPleaseMainMenu menu = new BitsPleaseMainMenu();
