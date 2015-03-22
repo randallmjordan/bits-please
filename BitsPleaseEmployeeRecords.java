@@ -22,10 +22,13 @@ public class BitsPleaseEmployeeRecords extends JFrame
    final int WINDOW_WIDTH=1024;
    final int WINDOW_HEIGHT=768;
    private Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-   private JButton returnHome;
-   private JPanel listPanel, contactPanel, otherPanel;
+   private JButton returnHome, save, edit, close ;
+   private JPanel listPanel, contactPanel, otherPanel, topPanel,rowZeroPanel,rowOnePanel, rowTwoPanel, rowThreePanel, 
+           rowFourPanel, rowFivePanel, rowSixPanel,datesPanel;
    private JTextField fNameField, lNameField, sAddressField, cityField,  zCodeField, phoneField,
            aPhoneField, eNumField, bDateField, hDateField, titField;
+   private JLabel pageLabel,genderLabel, firstName, lastName, birthDate, streetAddress, city, zipCode, phone, state, 
+           altPhone, emNum, hireDate;
    private JComboBox<String> sexBox, stateBox;
    private JList<String> emList;
    private JScrollPane scroll;
@@ -72,6 +75,138 @@ public class BitsPleaseEmployeeRecords extends JFrame
    {
       contactPanel = new JPanel();
       contactPanel.setBackground(new Color(255,229,153));
+      
+      buildRowOne();
+      rowOnePanel.setBounds(220,120,784,75);
+      buildRowTwo();
+      rowTwoPanel.setBounds(220,195,784,75);
+      buildRowThree();
+      rowThreePanel.setBounds(220,270,784,75);
+      buildRowFour();
+      rowFourPanel.setBounds(220,345,784,75);
+      buildRowFive();
+      rowFivePanel.setBounds(220,420,784,75);
+      buildRowSix();
+      rowSixPanel.setBounds(220,653,784,75);
+      buildDatesPanel();
+      datesPanel.setBounds(220, 495,784,75);
+      
+      contactPanel.add(rowOnePanel);
+      contactPanel.add(rowTwoPanel);
+      contactPanel.add(rowThreePanel);
+      contactPanel.add(rowFourPanel);
+      contactPanel.add(rowFivePanel);
+      contactPanel.add(datesPanel);
+      contactPanel.add(rowSixPanel);
+   }
+   private void buildDatesPanel()
+   {
+      datesPanel = new JPanel();
+      datesPanel.setBackground(new Color(255,229,153));
+      datesPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+      birthDate = new JLabel("Birth Date:          ");
+      hireDate = new JLabel("     Active Date:       ");
+      bDateField = new JTextField(10);
+      hDateField = new JTextField(10);
+      datesPanel.add(birthDate);
+      datesPanel.add(bDateField);
+      datesPanel.add(hireDate);
+      datesPanel.add(hDateField);
+      
+   }
+   private void buildRowOne()
+   {
+      rowOnePanel = new JPanel();
+      rowOnePanel.setBackground(new Color(255,229,153));
+      rowOnePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+      firstName = new JLabel("First Name:             ");
+      lastName = new JLabel("       Last Name:          ");
+      fNameField = new JTextField(20);
+      lNameField = new JTextField(20);
+      rowOnePanel.add(firstName);
+      rowOnePanel.add(fNameField);
+      rowOnePanel.add(lastName);
+      rowOnePanel.add(lNameField);
+      
+   }
+   private void buildRowTwo()
+   {
+      rowTwoPanel = new JPanel();
+      rowTwoPanel.setBackground(new Color(255,229,153));
+      rowTwoPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+      streetAddress = new JLabel("Street Address:       "); 
+      sAddressField = new JTextField(52);
+      rowTwoPanel.add(streetAddress);
+      rowTwoPanel.add(sAddressField);
+             
+   }
+   private void buildRowThree()
+   {
+      rowThreePanel = new JPanel();
+      rowThreePanel.setBackground(new Color(255,229,153));
+      rowThreePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+      String[] statesAbbrv = {"AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI",
+                              "ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI",
+                              "MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC",
+                              "NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX",
+                              "UT","VT","VA","WA","WV","WI","WY"};
+      stateBox = new JComboBox<String>(statesAbbrv);
+      city = new JLabel("City:                        ");
+      state = new JLabel("     State:   ");
+      zipCode = new JLabel("   Zip Code:   ");
+      cityField = new JTextField(20);
+      zCodeField = new JTextField(10);
+      rowThreePanel.add(city);
+      rowThreePanel.add(cityField);
+      rowThreePanel.add(state);
+      rowThreePanel.add(stateBox);
+      rowThreePanel.add(zipCode);
+      rowThreePanel.add(zCodeField);
+   }
+   private void buildRowFour()
+   {
+      rowFourPanel = new JPanel();
+      rowFourPanel.setBackground(new Color(255,229,153));
+      rowFourPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+      phone = new JLabel("Phone Number:       ");
+      altPhone = new JLabel("      Alt. Number:      ");
+      phoneField = new JTextField(12);
+      aPhoneField = new JTextField(12);
+      rowFourPanel.add(phone);
+      rowFourPanel.add(phoneField);
+      rowFourPanel.add(altPhone);
+      rowFourPanel.add(aPhoneField);
+   }
+   private void buildRowFive()
+   {
+      rowFivePanel = new JPanel();
+      rowFivePanel.setBackground(new Color(255,229,153));
+      rowFivePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+      String[] gender = {"male", "female", " ", " ", " "};
+      sexBox = new JComboBox<String>(gender);
+      genderLabel = new JLabel("Gender:         ");
+      emNum = new JLabel("        Employee Number:   ");
+      
+      eNumField = new JTextField(10);
+      rowFivePanel.add(genderLabel);
+      rowFivePanel.add(sexBox);
+      rowFivePanel.add(emNum);
+      rowFivePanel.add(eNumField);
+   }
+   private void buildRowSix()
+   {
+      rowSixPanel = new BitsPleaseMMPanel();
+      rowSixPanel.setBackground(new Color(255,229,153));
+      rowSixPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+      save = new JButton("Save");
+      save.addActionListener(new ButtonListener());
+      edit = new JButton("Edit");
+      //edit.addActionListener(new ButtonListener());
+      close = new JButton("Close");
+      close.addActionListener(new ButtonListener());
+      rowSixPanel.add(edit);     
+      rowSixPanel.add(save);
+      rowSixPanel.add(close);
    }
    private void buildOtherPanel()
    {
