@@ -208,37 +208,7 @@ public class BitsPleaseNewEmployee extends JFrame
       rowSevenPanel.add(addAnotherEmployee);
       rowSevenPanel.add(cancel);
    }
-   private boolean checkDate(String s)
-   {
-      //not doing Leap Years
-      int month = Integer.parseInt(s.substring(5,7));
-      int day = Integer.parseInt(s.substring(8,10));
-      if (month > 12)
-      {
-         JOptionPane.showMessageDialog(null, month +" is not appropriate Month #","ILLEGAL MONTH", JOptionPane.ERROR_MESSAGE);
-         return false;
-      }
-      if (day > 31)
-      {
-         JOptionPane.showMessageDialog(null,"There are not " + day +
-                                       " days in month " + month,"ILLEGAL", JOptionPane.ERROR_MESSAGE);
-         return false;
-      }
-      else if ( day > 30 && (month == 4 || month == 6 || month == 9 || month == 11))
-      {
-         JOptionPane.showMessageDialog(null,"There are not " + day +
-                                       " days in month " + month,"ILLEGAL", JOptionPane.ERROR_MESSAGE);
-         return false;
-      }
-      else if ( day > 28 && month == 2)
-      {
-         JOptionPane.showMessageDialog(null,"There are not " + day +
-                                       " days in month " + month,"ILLEGAL", JOptionPane.ERROR_MESSAGE);
-         return false;
-      }
-      return true;
-   }
-   private class ComboBoxListener implements ActionListener
+      private class ComboBoxListener implements ActionListener
    {
       public void actionPerformed(ActionEvent e)
       {
@@ -264,7 +234,7 @@ public class BitsPleaseNewEmployee extends JFrame
                JOptionPane.showMessageDialog(null, "Please use date format yyyy-dd-mm","ILLEGAL FORMAT", JOptionPane.ERROR_MESSAGE);
                return;
             }
-            if (!(checkDate(bDateField.getText())) || !(checkDate(hDateField.getText())))
+            if (!(BitsPleaseDateCheck.checkDates(bDateField.getText())) || !(BitsPleaseDateCheck.checkDates(hDateField.getText())))
             {
                return;
             }
@@ -299,7 +269,7 @@ public class BitsPleaseNewEmployee extends JFrame
                JOptionPane.showMessageDialog(null, "Please use date format yyyy-dd-mm","ILLEGAL FORMAT", JOptionPane.ERROR_MESSAGE);
                return;
             }
-            if (!(checkDate(bDateField.getText())) || !(checkDate(hDateField.getText())))
+            if (!(BitsPleaseDateCheck.checkDates(bDateField.getText())) || !(BitsPleaseDateCheck.checkDates(hDateField.getText())))
             {
                return;
             }

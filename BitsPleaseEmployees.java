@@ -93,7 +93,7 @@ public class BitsPleaseEmployees extends JFrame
            
            }
          }
-         else if (actionCommand.equals("New Employee Options"))
+         else if (actionCommand.equals("New Employee"))
          {
             setVisible(false);
             dispose();
