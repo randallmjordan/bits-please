@@ -1,3 +1,7 @@
+/**
+   The BitsPleaseMembershipType class creates the BitsPleaseMembershipType objects.
+*/
+
 public class BitsPleaseMembershipType
 {
    private String memTypeName;

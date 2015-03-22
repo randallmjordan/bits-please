@@ -1,3 +1,8 @@
+/**
+   The BitsPleaseMemberOpitions class creates teh GUI that is where a user will enter new information
+   pertaining to membership types, where the user can edit said information.
+*/
+
 import java.sql.*;
 import javax.swing.*;
 import javax.swing.event.*;

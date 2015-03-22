@@ -1,4 +1,7 @@
-
+/**
+   The BitsPleaseMMPanel creates a common opaque panel used on many of the GUI pages throughout Bits Please
+   MGMT system.
+*/
 import javax.swing.*;
 import java.awt.*;
 

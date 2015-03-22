@@ -1,3 +1,8 @@
+/**
+   BitsPleaseAddress class creates an Address object. It will be used to along side the BitsPleasePerson class
+   to assist in making a BitsPleaseMember and BitsPleaseEmployee.
+*/
+
 public class BitsPleaseAddress
 {
    private String streetAddress;

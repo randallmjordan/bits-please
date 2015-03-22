@@ -1,4 +1,6 @@
-
+/**
+   The BitsPleaseBackImage sets a common background for the BitsPlease MGMT system.
+*/
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
@@ -9,7 +11,7 @@ import java.awt.event.*;
    
 class BitsPleaseBackImage extends JComponent 
 {
- 
+      private static final long serialVersionUID = 7227575264622776147L; //added to get rid of serializable warning
       private Image bf = new ImageIcon(this.getClass().getResource("background.png")).getImage();
        
       //Creating Constructer

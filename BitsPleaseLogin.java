@@ -1,3 +1,8 @@
+/**
+   BitsPleaseLogin class creates the GUI for the Login screen for the Bits Please Gym
+   MGMT system. 
+*/
+
 import java.sql.*;
 import javax.swing.*;
 import java.awt.*;

@@ -1,4 +1,6 @@
-
+/**
+   The BitsPleaseMMButton class creates a common button used on BitsPleaseMainMenu, BitsPleaseEmplyees.
+*/
 import javax.swing.*;
 import java.awt.*;
 

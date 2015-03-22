@@ -1,3 +1,8 @@
+/**
+     The BitsPleaseMainMenu creates the Main Menu GUI for Bits Please Gym MGMT system. It is accessed
+     once a user successfully logs in from the BitsPleaseLogin GUI.
+*/
+
 import java.sql.*;
 import javax.swing.*;
 import java.awt.*;
@@ -214,6 +219,7 @@ public class BitsPleaseMainMenu extends JFrame
          {
             setVisible(false);
             dispose();
+            
             try
            {
                BitsPleaseNewMember newMem = new BitsPleaseNewMember();

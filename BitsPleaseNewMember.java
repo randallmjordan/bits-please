@@ -1,3 +1,8 @@
+/**
+   The BitsPleaseNewMember class creates the GUI that will allow the user to enter information that pertains to 
+   new members in the Bits Please Gym MGMT system.
+*/
+
 import java.sql.*;
 import javax.swing.*;
 import java.awt.*;

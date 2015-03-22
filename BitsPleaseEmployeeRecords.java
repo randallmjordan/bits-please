@@ -1,3 +1,10 @@
+/**
+   The BitsPleaseEmployeeRecords creates the GUI for dealing with exisitng Employees.
+   The Gui is tabbed to show Employee contact info on opening, and second tab is set 
+   to contain other pertinent info related to the Employee.
+   This class is accessed from BitsPleaseMainMenu.
+*/
+
 import java.sql.*;
 import javax.swing.*;
 import javax.swing.event.*;

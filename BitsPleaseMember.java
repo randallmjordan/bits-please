@@ -1,3 +1,7 @@
+/**
+   The BitsPleaseMember class creates a BitsPleaseMember object from info sent from BitsPleaseNewMember GUI
+*/
+
 import java.sql.*;
 
 public class BitsPleaseMember extends BitsPleasePerson

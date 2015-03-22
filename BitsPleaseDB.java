@@ -1,3 +1,8 @@
+/**
+   The BitsPleaseDB class consists of the methods that creates, or drops ,or populates
+   tables in a Derby Apache DB. method calls are commented out at times to deal with 
+   particular tables. This class can be altered to be called from the main in BitsPlease
+*/
 import java.sql.*;
 
 public class BitsPleaseDB

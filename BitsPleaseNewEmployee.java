@@ -1,3 +1,7 @@
+/**
+   The BitsPleaseNewEmployee class creates a GUI so the user can enter New Employee information. 
+   The GUI is accessed from the BitsPleaseMainMenu.  
+*/
 import java.sql.*;
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +37,6 @@ public class BitsPleaseNewEmployee extends JFrame
       setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
       
       setResizable(false);
-      
       setContentPane(new BitsPleaseBackImage());      
       
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

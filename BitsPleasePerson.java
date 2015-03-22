@@ -1,3 +1,6 @@
+/**
+   The BitsPleasePerson is the superclass for BitsPleaseMember and BitsPleaseEmployee
+*/
 public class BitsPleasePerson
 {
    String firstName;

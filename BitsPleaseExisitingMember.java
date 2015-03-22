@@ -1,3 +1,7 @@
+/**
+   The BitsPleaseExistingMember class creates to GUI that allows the user to manage info pertaining
+   to Gym Members. 
+*/
 import java.sql.*;
 import javax.swing.*;
 import javax.swing.event.*;

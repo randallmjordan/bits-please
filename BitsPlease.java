@@ -1,3 +1,10 @@
+/**
+   The BitsPlease class is the launcher for the Bits Please Gym MGMT software.
+   The BitsPlease group of classes is for a Spring 2015 project at Georgia State
+   University, class CSc 4350 with Bhola.
+   The Bits Please team consists of:
+   Zack Dannawi, Randall Jordan, Kang Shin, Patrick Trang, & Chaitanya Vyas.
+*/
 import java.io.*;
 import java.sql.*;
 

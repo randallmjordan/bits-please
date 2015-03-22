@@ -1,3 +1,8 @@
+/**
+   The BitsPleaseEmployees class creates teh GUI  that will direct user to either BitsPleaseNewEmployee,
+   BitsPleaseEmployeeRecords, or BitsPleaseMainMenu.
+*/
+
 import java.sql.*;
 import javax.swing.*;
 import java.awt.*;

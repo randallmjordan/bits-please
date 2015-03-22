@@ -1,14 +1,23 @@
+/**
+   The BitsPleaseEmployee class creates and Employee from information sent from the BitsPleaseNewMember GUI.
+   
+*/
 import java.sql.*;
 
 public class BitsPleaseEmployee extends BitsPleasePerson
 {
    private BitsPleaseAddress address;
    private String emNumber, birthDate, hireDate, title;
-      
+   /**
+       Constructor
+   */   
    public BitsPleaseEmployee()
    {
    
    }
+   /**
+      BitsPleaseEmployee Constructor
+   */
    public BitsPleaseEmployee(String fName, String lName, BitsPleaseAddress ad, 
                              String eNum, String bDay, String hDay, String job, String sx)
    {
