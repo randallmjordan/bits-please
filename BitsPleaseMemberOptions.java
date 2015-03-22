@@ -190,7 +190,7 @@ public class BitsPleaseMemberOptions extends JFrame
    {
       public void valueChanged(ListSelectionEvent e)
       {
-         value = planList.getSelectedValue();
+         value = planList.getSelectedValue().trim();
          String pDesc = "";
          String pCost = "";
          String pSDate = "";
@@ -241,20 +241,20 @@ public class BitsPleaseMemberOptions extends JFrame
             {
                Statement stmt = BitsPlease.conn.createStatement();;
                try
-            {
-               Date date = dateFormat.parse(planSDateField.getText());
-               date = dateFormat.parse(planEDateField.getText());
-            }
-            catch (ParseException p)
-            {
-               JOptionPane.showMessageDialog(null, "Please use date format yyyy-dd-mm","ILLEGAL FORMAT", JOptionPane.ERROR_MESSAGE);
-               return;
-            }
-            if (!(BitsPleaseDateCheck.checkDates(planSDateField.getText())) || !(BitsPleaseDateCheck.checkDates(planEDateField.getText())))
-            {
-               return;
-            }
-               if (Arrays.asList(plans).contains(planNameField.getText().trim()))
+               {
+                  Date date = dateFormat.parse(planSDateField.getText());
+                  date = dateFormat.parse(planEDateField.getText());
+               }
+               catch (ParseException p)
+               {
+                  JOptionPane.showMessageDialog(null, "Please use date format yyyy-dd-mm","ILLEGAL FORMAT", JOptionPane.ERROR_MESSAGE);
+                  return;
+               }
+               if (!(BitsPleaseDateCheck.checkDates(planSDateField.getText().trim())) || !(BitsPleaseDateCheck.checkDates(planEDateField.getText().trim())))
+               {
+                  return;
+               }
+               if (Arrays.asList(plans).contains(value))
                {
                   stmt.execute("UPDATE MemPlans SET plan_name ='" + planNameField.getText().trim() +
                                "', description ='" + planDescField.getText().trim() +
@@ -262,6 +262,8 @@ public class BitsPleaseMemberOptions extends JFrame
                                "', start_date ='" + planSDateField.getText().trim() +
                                "', end_date ='" + planEDateField.getText().trim() +
                                "' WHERE plan_name ='" + value + "'");
+                  stmt.execute("UPDATE Members SET memOption ='" +planNameField.getText().trim() +
+                               "' WHERE memOption ='" + value + "'");
                  
                }
                else

@@ -28,7 +28,7 @@ public class BitsPleaseEmployeeRecords extends JFrame
    private JTextField fNameField, lNameField, sAddressField, cityField,  zCodeField, phoneField,
            aPhoneField, eNumField, bDateField, hDateField, titField;
    private JLabel pageLabel,genderLabel, firstName, lastName, birthDate, streetAddress, city, zipCode, phone, state, 
-           altPhone, emNum, hireDate;
+           altPhone, emNum, hireDate, title;
    private JComboBox<String> sexBox, stateBox;
    private JList<String> emList;
    private JScrollPane scroll;
@@ -75,7 +75,10 @@ public class BitsPleaseEmployeeRecords extends JFrame
    {
       contactPanel = new JPanel();
       contactPanel.setBackground(new Color(255,229,153));
-      
+      topPanel = new JPanel();
+      topPanel.setBackground(new Color(255,229,153));
+      topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+      contactPanel.setLayout(new BorderLayout());
       buildRowOne();
       rowOnePanel.setBounds(220,120,784,75);
       buildRowTwo();
@@ -91,13 +94,14 @@ public class BitsPleaseEmployeeRecords extends JFrame
       buildDatesPanel();
       datesPanel.setBounds(220, 495,784,75);
       
-      contactPanel.add(rowOnePanel);
-      contactPanel.add(rowTwoPanel);
-      contactPanel.add(rowThreePanel);
-      contactPanel.add(rowFourPanel);
-      contactPanel.add(rowFivePanel);
-      contactPanel.add(datesPanel);
-      contactPanel.add(rowSixPanel);
+      topPanel.add(rowOnePanel);
+      topPanel.add(rowTwoPanel);
+      topPanel.add(rowThreePanel);
+      topPanel.add(rowFourPanel);
+      topPanel.add(rowFivePanel);
+      topPanel.add(datesPanel);
+      contactPanel.add(topPanel,BorderLayout.CENTER);
+      contactPanel.add(rowSixPanel,BorderLayout.SOUTH);
    }
    private void buildDatesPanel()
    {
@@ -186,12 +190,15 @@ public class BitsPleaseEmployeeRecords extends JFrame
       sexBox = new JComboBox<String>(gender);
       genderLabel = new JLabel("Gender:         ");
       emNum = new JLabel("        Employee Number:   ");
-      
       eNumField = new JTextField(10);
+      titField = new JTextField(15);
+      title = new JLabel("   Title:   ");
       rowFivePanel.add(genderLabel);
       rowFivePanel.add(sexBox);
       rowFivePanel.add(emNum);
       rowFivePanel.add(eNumField);
+      rowFivePanel.add(title);
+      rowFivePanel.add(titField);
    }
    private void buildRowSix()
    {
@@ -334,19 +341,19 @@ public class BitsPleaseEmployeeRecords extends JFrame
          {
             System.out.println(ex);
          }
-         /*fNameField.setText(fN);
+         fNameField.setText(fN);
          lNameField.setText(lN);
          sAddressField.setText(ad);
          cityField.setText(city);
          stateBox.setSelectedItem(st);
          zCodeField.setText(zCode);
          phoneField.setText(ph);
-         hPhoneField.setText(aPH);
-         NumField.setText(mNum);
+         aPhoneField.setText(aPH);
+         eNumField.setText(eNum);
          titField.setText(tit);
          bDateField.setText(bD);
          hDateField.setText(hD);
-         sexBox.setSelectedItem(sx);*/
+         sexBox.setSelectedItem(sx);
       }
    }
 }
