@@ -53,8 +53,33 @@ public class BitsPleaseEmployee extends BitsPleasePerson
    {
       emNumber = eNum;
    }
+   public void setBDate(String bD)
+   {
+      birthDate = bD;
+   }
+   public void setHDate (String hD)
+   {
+      hireDate = hD;
+   }
+   public void setTitle (String t)
+   {
+      title = t;
+   }  
    public String getEmNumber()
    {
       return emNumber;
    }
+   public String getBDate()
+   {
+      return birthDate;
+   }
+   public String getHDate()
+   {
+      return hireDate;
+   }
+   public String getTitle()
+   {
+      return title;
+   }
+   
 }

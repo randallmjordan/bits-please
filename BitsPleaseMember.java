@@ -50,8 +50,24 @@ public class BitsPleaseMember extends BitsPleasePerson
    {
       memNumber = mNum;
    }
+   public void setBDate(String bD)
+   {
+      birthDate = bD;
+   }
+   public void setADate(String aD)
+   {
+      activeDate = aD;
+   }
    public String getMemNumber()
    {
       return memNumber;
+   }
+   public String getBDate()
+   {
+      return birthDate;
+   }  
+   public String getADate()
+   {
+      return activeDate;
    }
 }
