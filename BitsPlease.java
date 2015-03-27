@@ -14,7 +14,7 @@ public class BitsPlease
    
    public static void main(String[] args)throws IOException, SQLException
    {
-      //BitsPleaseDB db = new BitsPleaseDB();
+      BitsPleaseDB db = new BitsPleaseDB();
       
       final String DB_URL = "jdbc:derby:BitsPleaseDB;create=true";
 

@@ -4,11 +4,12 @@
    particular tables. This class can be altered to be called from the main in BitsPlease
 */
 import java.sql.*;
+import javax.swing.*;
 
 public class BitsPleaseDB
 
 {
-   public /*BitsPleaseDB()*/static void main(String[] args)
+   public BitsPleaseDB()//static void main(String[] args)
    {
       final String DB_URL = "jdbc:derby:BitsPleaseDB;create=true";
       
@@ -18,11 +19,11 @@ public class BitsPleaseDB
          
          dropTables(conn);
          
-         //buildUserTable(conn);
+         buildUserTable(conn);
          
-         //buildMembersTable(conn);
+         buildMembersTable(conn);
          
-         //buildMemTypeTable(conn);
+         buildMemTypeTable(conn);
          
          buildEmployeeTable(conn);
          
@@ -42,15 +43,15 @@ public class BitsPleaseDB
          
          try
          {
-            //stmt.execute("DROP TABLE Users");
-            //stmt.execute("DROP TABLE Members");
-            //stmt.execute("DROP TABLE MemPlans");
+            stmt.execute("DROP TABLE Users");
+            stmt.execute("DROP TABLE Members");
+            stmt.execute("DROP TABLE MemPlans");
             stmt.execute("DROP TABLE Employees");
-            System.out.println(" table dropped");
+            System.out.println(" tables dropped");
          }
          catch(SQLException e)
          {
-            
+            System.out.println("DROP ERROR: " + e);
          }
          
       }
@@ -73,12 +74,13 @@ public class BitsPleaseDB
          
          stmt.execute("INSERT INTO Users VALUES (" +
                       "'admin', '123456')");
+         System.out.println("Users table created.");
       }
       catch(SQLException e)
       {
          System.out.println("ERROR1: " + e.getMessage());
       } 
-      System.out.println("Users table created.");
+      
    }
    public static void buildMembersTable(Connection conn)
    {
@@ -130,12 +132,13 @@ public class BitsPleaseDB
                       "hDate Char(10)," +
                       "title Char(50)," + 
                       "sex Char(7))");
+         System.out.println("Employee  table created.");
       }
       catch(SQLException e)
       {
          System.out.println("ERROR emp: " + e.getMessage());
       } 
-      System.out.println("Employee  table created.");
+      
    }
    public static void buildMemTypeTable(Connection conn)
    {
@@ -143,19 +146,21 @@ public class BitsPleaseDB
       {
          Statement stmt = conn.createStatement();
          
-         /*stmt.execute("CREATE table MemPlans (" +
+         stmt.execute("CREATE table MemPlans (" +
                       "plan_name Char(30) NOT NULL PRIMARY KEY," +
                       "description VarChar(255)," +
                       "cost Char(10)," +
                       "start_date Char(15)," +
-                      "end_date Char(15))");*/
+                      "end_date Char(15))");
            
          stmt.execute("INSERT INTO MemPlans VALUES ('Free Trial', 'A free look at what the Gym offers.'," +
-                       "'00.00', '3/19/2015', '3/20/2099')");
+                      "'00.00', '2015-03-19', '2099-12-31')");
+         System.out.println("MemPlans  table created.");
       }
       catch (SQLException e)
       {
          System.out.println("MemType Error:" + e.getMessage());
+         
       }
    }
    
