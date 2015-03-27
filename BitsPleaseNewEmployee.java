@@ -247,6 +247,7 @@ public class BitsPleaseNewEmployee extends JFrame
                                     titField.getText().trim(), gen);
 
            em.insertToDB();
+           System.out.println("WTF" + em.getFirstName());
            try
            {
                
