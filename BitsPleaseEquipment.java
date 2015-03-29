@@ -1,4 +1,4 @@
-
+import java.sql.*;
 
 public class BitsPleaseEquipment 
 {
@@ -199,5 +199,23 @@ public class BitsPleaseEquipment
    public String getNextMaintDate()
    {
       return eqNextMaintDate;
+   }
+   public void insertToDB()
+   {
+      try
+           {
+               Statement stmt  = BitsPlease.conn.createStatement();;
+               stmt.execute("INSERT INTO  Equipment Values ('" + 
+                            eqId + "','" + eqName + "','" +
+                            eqType + "','" + eqPurchaseDate + "','" +
+                            eqCost + "','" + eqLastMaintDate + "','" +
+                            eqExpectedLife + "','" + eqNextMaintDate + "')" );
+              
+           } 
+           catch (Exception x)
+           {
+            System.out.println( "Insert EQ err:  " + x);
+           }
+
    }
 }

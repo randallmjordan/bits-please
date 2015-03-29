@@ -9,7 +9,7 @@ import javax.swing.*;
 public class BitsPleaseDB
 
 {
-   public BitsPleaseDB()//static void main(String[] args)
+   public /*BitsPleaseDB()*/static void main(String[] args)
    {
       final String DB_URL = "jdbc:derby:BitsPleaseDB;create=true";
       
@@ -17,15 +17,17 @@ public class BitsPleaseDB
       {
          Connection conn = DriverManager.getConnection(DB_URL);
          
-         dropTables(conn);
+         //dropTables(conn);
          
-         buildUserTable(conn);
+         //buildUserTable(conn);
          
-         buildMembersTable(conn);
+         //buildMembersTable(conn);
          
-         buildMemTypeTable(conn);
+         //buildMemTypeTable(conn);
          
-         buildEmployeeTable(conn);
+         //buildEmployeeTable(conn);
+         
+         //buildEquipmentTable(conn);
          
          conn.close();
       }
@@ -47,6 +49,7 @@ public class BitsPleaseDB
             stmt.execute("DROP TABLE Members");
             stmt.execute("DROP TABLE MemPlans");
             stmt.execute("DROP TABLE Employees");
+            stmt.execute("DROP TABLE Equipment");
             System.out.println(" tables dropped");
          }
          catch(SQLException e)
@@ -61,7 +64,28 @@ public class BitsPleaseDB
          e.printStackTrace();
       }
    }
-   
+   public static void buildEquipmentTable(Connection conn)
+   {
+      try
+      {
+         Statement stmt = conn.createStatement();
+         
+         stmt.execute("CREATE TABLE Equipment (" +
+                      "eqID Char(10) NOT NULL PRIMARY KEY," +
+                      "eName Char(50) NOT NULL, " +
+                      "eType Char(50)," +
+                      "buyDate Char(10)," +
+                      "eqCost Double," +
+                      "lastMaintDate Char(10)," +
+                      "lifeLength Double," +
+                      "nextMaintDate Char(10))");
+         System.out.println("Eq table created");            
+      }
+      catch (SQLException e)
+      {
+         System.out.println("Eq error : " + e);
+      }
+   }
    public static void buildUserTable(Connection conn)
    {
       try

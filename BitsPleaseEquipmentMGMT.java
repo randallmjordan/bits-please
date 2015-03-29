@@ -104,7 +104,7 @@ public class BitsPleaseEquipmentMGMT extends JFrame
            } 
            catch (Exception x)
            {
-           
+               System.out.println("New Equipment :  " + x);
            }
 
          }
