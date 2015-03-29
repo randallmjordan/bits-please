@@ -352,7 +352,7 @@ public class BitsPleaseMainMenu extends JFrame
             dispose();
             try
            {
-               BitsPleaseEquipment eq = new BitsPleaseEquipment();
+               BitsPleaseEquipmentMGMT eq = new BitsPleaseEquipmentMGMT();
            } 
            catch (Exception x)
            {

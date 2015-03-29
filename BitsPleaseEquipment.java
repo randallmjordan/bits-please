@@ -1,56 +1,78 @@
-import java.sql.*;
-import javax.swing.*;
-import java.awt.*;
-import java.io.*;
-import javax.imageio.*;
-import java.awt.image.BufferedImage;
-import java.awt.event.*;
 
-public class BitsPleaseEquipment extends JFrame
+
+public class BitsPleaseEquipment 
 {
-   final int WINDOW_WIDTH=1024;
-   final int WINDOW_HEIGHT=768;
-   private Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-   private JButton returnHome;
    private static final long serialVersionUID = 7227575264622776147L; //added to get rid of serializable warning
+   private String eqName;
+   private String eqType;
+   private String eqId;
+   private String eqPurchaseDate;
+   private double eqCost;
+   private String eqLastMaintDate;
+   private double eqExpected Life;
+   private String eqNextMaintDate;
    
-   public BitsPleaseEquipment() throws IOException, SQLException
+   /**
+      Constructor
+   */
+   public BitsPleaseEquipment()  
    {
-      
-      setTitle("Bits Please Gym MGMT System - Equipment");
-      
-      setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-      
-      setResizable(false);
-      
-      setContentPane(new BitsPleaseBackImage());      
-      
-      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      
-      setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-      
-      returnHome = new JButton("Main Menu");
-      returnHome.addActionListener(new ButtonListener());
-      returnHome.setBounds(650, 50, 98, 27);
-      add(returnHome);
-      
-      setVisible(true);
+   
    }
-   private class ButtonListener implements ActionListener
+   /**
+      BitsPelaseEquipment Constructor
+      @param eName The name of equipment
+      @param eType The type of equipment
+      @param eID The identification number of equipment
+      @param ePDate the date of purchase of equipent
+      @param eCost The cost of equipment purchase
+      @eLMD The date of last maintenence, yyyy-mm-dd
+      @eLife The life expectancy of equipment;
+      @eNMD The date of next maintenence, yyyy-mm-dd
+   */   
+   public BitsPleaseEquipment(String eName, String eType, String eID, String ePDate, double eCost,
+                              String eLMD, double eLife, String eNMD)
    {
-      public void actionPerformed(ActionEvent e)
-      {
-         setVisible(false);
-         dispose();
-         //JOptionPane.showMessageDialog(null, "Good Job, " + userNameField.getText());
-        try
-        {
-            BitsPleaseMainMenu menu = new BitsPleaseMainMenu();
-        } 
-        catch (Exception x)
-        {
-        
-        }
-      }  
+      eqName = eName;
+      eqType = eType;
+      eqID = eID;
+      eqPurchaseDate = ePDate;
+      eqCost = eCost;
+      eqLastMaintDate = eLMD;
+      eqExpectedLife = eLife;
+      eqNextMaintDate = eNMD;
    }
+   public void setName(String eN)
+   {
+      eqName = eN;
+   } 
+   public void setType(String t)
+   {
+      eqType = t;  
+   } 
+   public void setID(String i)
+   {
+      eqID = i;
+   } 
+   public void setBuyDate(String pD)
+   {
+      eqPurchaseDate = pD;
+   }
+   public void setCost(double c)
+   {
+      eqCost = e;
+   }
+   public void setLastMaintDate(String mD)
+   {
+      eqLastMaintDate = mD;
+   }
+   public void setLife(double l)
+   {
+      eqExpectedLife = l;
+   }
+   public void setNextMaintDate(String nMD)
+   {
+      eqNextMaintDate = nMD;
+   }
+  
 }
