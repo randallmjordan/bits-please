@@ -11,37 +11,60 @@ import java.util.Date;
 
 public class BitsPleaseDateCheck
 {
+   
+   
    public static boolean checkDates(String s)
    {
       //not doing Leap Years
+      int year = 0;
+      int month = 0;
+      int day = 0;
+      
       if (s.length()!= 10)
       {
          JOptionPane.showMessageDialog(null, "Illegal format, please enter yyyy-mm-dd","ILLEGAL FORMAT", JOptionPane.ERROR_MESSAGE);
          return false;
       }
-      int month = Integer.parseInt(s.substring(5,7));
-      int day = Integer.parseInt(s.substring(8,10));
-      if (month > 12)
+      try
       {
-         JOptionPane.showMessageDialog(null, month +" is not appropriate Month #","ILLEGAL MONTH", JOptionPane.ERROR_MESSAGE);
+         year = Integer.parseInt(s.substring(0,4));
+         month = Integer.parseInt(s.substring(5,7));
+         day = Integer.parseInt(s.substring(8,10));
+      }
+      catch(Exception e)
+      {
+         JOptionPane.showMessageDialog(null, "Illegal format, please enter yyyy-mm-dd","ILLEGAL FORMAT", JOptionPane.ERROR_MESSAGE);
          return false;
       }
-      if (day > 31)
+      try
       {
-         JOptionPane.showMessageDialog(null,"There are not " + day +
-                                       " days in month " + month,"ILLEGAL", JOptionPane.ERROR_MESSAGE);
-         return false;
+         if (month > 12)
+         {
+            JOptionPane.showMessageDialog(null, month +" is not appropriate Month #","ILLEGAL MONTH", JOptionPane.ERROR_MESSAGE);
+            return false;
+         }
+         if (day > 31)
+         {
+            JOptionPane.showMessageDialog(null,"There are not " + day +
+                                          " days in month " + month,"ILLEGAL", JOptionPane.ERROR_MESSAGE);
+            return false;
+         }
+         else if ( day > 30 && (month == 4 || month == 6 || month == 9 || month == 11))
+         {
+            JOptionPane.showMessageDialog(null,"There are not " + day +
+                                          " days in month " + month,"ILLEGAL", JOptionPane.ERROR_MESSAGE);
+            return false;
+         }
+         else if ( day > 28 && month == 2)
+         {
+            JOptionPane.showMessageDialog(null,"There are not " + day +
+                                          " days in month " + month,"ILLEGAL", JOptionPane.ERROR_MESSAGE);
+            return false;
+         }
       }
-      else if ( day > 30 && (month == 4 || month == 6 || month == 9 || month == 11))
+      catch (Exception exc)
       {
-         JOptionPane.showMessageDialog(null,"There are not " + day +
-                                       " days in month " + month,"ILLEGAL", JOptionPane.ERROR_MESSAGE);
-         return false;
-      }
-      else if ( day > 28 && month == 2)
-      {
-         JOptionPane.showMessageDialog(null,"There are not " + day +
-                                       " days in month " + month,"ILLEGAL", JOptionPane.ERROR_MESSAGE);
+         JOptionPane.showMessageDialog(null, "Illegal format, please enter yyyy-mm-dd","ILLEGAL FORMAT", JOptionPane.ERROR_MESSAGE);
          return false;
       }
       return true;
