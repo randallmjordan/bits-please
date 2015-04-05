@@ -261,7 +261,7 @@ public class BitsPleaseMainMenu extends JFrame
             dispose();
             try
            {
-               BitsPleaseIndCourses iCourse = new BitsPleaseIndCourses();
+               BitsPleaseCourseMGMT iCourse = new BitsPleaseCourseMGMT("Indvidual");
            } 
            catch (Exception x)
            {
@@ -274,7 +274,7 @@ public class BitsPleaseMainMenu extends JFrame
             dispose();
             try
            {
-               BitsPleaseGroupCourse gCourse = new BitsPleaseGroupCourse();
+               BitsPleaseCourseMGMT gCourse = new BitsPleaseCourseMGMT("Group");
            } 
            catch (Exception x)
            {

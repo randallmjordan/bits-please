@@ -226,16 +226,15 @@ public class BitsPleaseNewEquipment extends JFrame
             try
             {
                Date date = dateFormat.parse(pDateField.getText());
-               date = dateFormat.parse(maintField.getText());
-               date = dateFormat.parse(nextMaintField.getText()); 
+               //date = dateFormat.parse(maintField.getText());
+               //date = dateFormat.parse(nextMaintField.getText()); 
             }
             catch (ParseException p)
             {
                JOptionPane.showMessageDialog(null, "Please use date format yyyy-dd-mm","ILLEGAL FORMAT", JOptionPane.ERROR_MESSAGE);
                return;
             }
-            if (!(BitsPleaseDateCheck.checkDates(pDateField.getText())) || !(BitsPleaseDateCheck.checkDates(maintField.getText()))
-                || !(BitsPleaseDateCheck.checkDates(nextMaintField.getText())))
+            if (!(BitsPleaseDateCheck.checkDates(pDateField.getText())))
             {
                return;
             }

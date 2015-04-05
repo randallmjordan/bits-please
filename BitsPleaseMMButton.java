@@ -12,7 +12,7 @@ public class BitsPleaseMMButton extends JButton
    {
       this.setText(text);
       super.setPreferredSize(new Dimension(200,75));
-      super.setBackground(new Color(51,51,51,240));
+      super.setBackground(new Color(51,51,51));
       super.setForeground(Color.WHITE);
    }
 }

@@ -207,9 +207,9 @@ public class BitsPleaseEquipment
                Statement stmt  = BitsPlease.conn.createStatement();;
                stmt.execute("INSERT INTO  Equipment Values ('" + 
                             eqId + "','" + eqName + "','" +
-                            eqType + "','" + eqPurchaseDate + "','" +
-                            eqCost + "','" + eqLastMaintDate + "','" +
-                            eqExpectedLife + "','" + eqNextMaintDate + "')" );
+                            eqType + "','" + eqPurchaseDate + "'," +
+                            eqCost + ",'" + eqLastMaintDate + "'," +
+                            eqExpectedLife + ",'" + eqNextMaintDate + "')" );
               
            } 
            catch (Exception x)
