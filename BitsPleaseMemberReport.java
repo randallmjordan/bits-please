@@ -126,7 +126,12 @@ public class BitsPleaseMemberReport extends JFrame
             
             if (actionCommand.equals("Members List"))
             {
-               query = "SELECT * FROM Members ORDER BY lastName";
+               query = "SELECT memID AS \"Member Number\", lastName AS \"Last Name\", " +
+                        "firstName AS \"First Name\", address AS \"Street Address\", " +
+                        "city AS \"City\", state AS \"State\", zipCode AS \"Zip Code\", " +
+                        "phone as \"Main Phone\", aPhone AS \"Alt Phone\", memOption AS " +
+                        " \"Membership Plan\", bDate AS \"Birthday\", aDate AS \"Active Date\", " +
+                        "sex AS \"Gender\" FROM Members ORDER BY lastName";
             }
             else if(actionCommand.equals("Male Members"))
             {
