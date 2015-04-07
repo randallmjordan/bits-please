@@ -16,6 +16,8 @@ import java.awt.event.*;
 import java.text.*;
 import java.util.Date;
 import java.util.*;
+import java.util.logging.*;
+import javax.swing.table.*;
 
 public class BitsPleaseEmployeeRecords extends JFrame
 {
@@ -24,15 +26,18 @@ public class BitsPleaseEmployeeRecords extends JFrame
    private Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
    private JButton returnHome, save, edit, close ;
    private JPanel listPanel, contactPanel, otherPanel, topPanel,rowZeroPanel,rowOnePanel, rowTwoPanel, rowThreePanel, 
-           rowFourPanel, rowFivePanel, rowSixPanel,datesPanel;
+           rowFourPanel, rowFivePanel, rowSixPanel,datesPanel, tablePanel;
    private JTextField fNameField, lNameField, sAddressField, cityField,  zCodeField, phoneField,
            aPhoneField, eNumField, bDateField, hDateField, titField;
    private JLabel pageLabel,genderLabel, firstName, lastName, birthDate, streetAddress, city, zipCode, phone, state, 
            altPhone, emNum, hireDate, title;
    private JComboBox<String> sexBox, stateBox;
    private JList<String> emList;
-   private JScrollPane scroll;
+   private JScrollPane scroll, pane;
    private JTabbedPane tabPane;
+   private JTable table;
+   private static final Logger LOG = Logger.getLogger( BitsPleaseMemberReport.class.getName() );
+   private final DefaultTableModel tableModel = new DefaultTableModel();
    private static final long serialVersionUID = 7227575264622776147L; //added to get rid of serializable warning
    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
       
@@ -69,7 +74,7 @@ public class BitsPleaseEmployeeRecords extends JFrame
       buildOtherPanel();
       
       tabPane.addTab("Contact", contactPanel);
-      tabPane.addTab("Other Infor", otherPanel);
+      tabPane.addTab("Other Infor", tablePanel);
    }
    private void buildContactPanel()
    {
@@ -217,14 +222,54 @@ public class BitsPleaseEmployeeRecords extends JFrame
    }
    private void buildOtherPanel()
    {
-      otherPanel = new JPanel();
+      /*otherPanel = new JPanel();
       otherPanel.setBackground(new Color(255,229,153));
       
       otherPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
       returnHome = new JButton("Main Menu");
-      returnHome.addActionListener(new ButtonListener());
-      
-      otherPanel.add(returnHome);
+      returnHome.addActionListener(new ButtonListener());      
+      otherPanel.add(returnHome);*/
+      tablePanel = new JPanel();
+      tablePanel.setBackground(new Color(255,229,153));
+      table = new JTable(tableModel);
+      table.setBackground(new Color(255,229,153));
+      tablePanel.setLayout(new BorderLayout());
+      table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+      pane = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                           JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+      pane.setOpaque(false);
+      pane.getViewport().setBackground(new Color(255,229,153));
+      pane.getViewport().setOpaque(false);
+      tablePanel.add(pane, BorderLayout.CENTER);
+   }
+   public static DefaultTableModel buildTableModel(ResultSet rs)
+        throws SQLException 
+   {
+
+       ResultSetMetaData metaData = rs.getMetaData();
+   
+       // names of columns
+       Vector<String> columnNames = new Vector<String>();
+       int columnCount = metaData.getColumnCount();
+       for (int column = 1; column <= columnCount; column++) 
+       {
+           columnNames.add(metaData.getColumnName(column));
+       }
+   
+       // data of the table
+       Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+       while (rs.next()) 
+       {
+           Vector<Object> vector = new Vector<Object>();
+           for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+               vector.add(rs.getObject(columnIndex));
+           }
+           data.add(vector);
+       }
+    
+
+      return new DefaultTableModel(data, columnNames);
+
    }
    private void buildEmList()
    {  
@@ -294,6 +339,9 @@ public class BitsPleaseEmployeeRecords extends JFrame
    }
    private class ListListener implements ListSelectionListener
    {
+      
+      
+      
       public void valueChanged(ListSelectionEvent e)
       {
          String value = emList.getSelectedValue();
@@ -354,6 +402,60 @@ public class BitsPleaseEmployeeRecords extends JFrame
          bDateField.setText(bD);
          hDateField.setText(hD);
          sexBox.setSelectedItem(sx);
+         
+         String instructor = lN + " , "  + fN;
+      String query = "SELECT * FROM indCourses"; //WHERE instructor ='" + instructor +"'";
+      new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        
+                        loadData(query);
+                        return null;
+                    }
+                }.execute();
       }
+      
    }
+   private void loadData(String q) {
+        LOG.info("START loadData method");
+
+        //button.setEnabled(false);
+
+        try
+        {
+            Statement stmt = BitsPlease.conn.createStatement(); 
+
+            ResultSet rs = stmt.executeQuery(q);
+            ResultSetMetaData metaData = rs.getMetaData();
+
+            // Names of columns
+            Vector<String> columnNames = new Vector<String>();
+            int columnCount = metaData.getColumnCount();
+            for (int i = 1; i <= columnCount; i++) {
+                columnNames.add(metaData.getColumnName(i));
+            }
+
+            // Data of the table
+            Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+            while (rs.next()) {
+                Vector<Object> vector = new Vector<Object>();
+                for (int i = 1; i <= columnCount; i++) {
+                    vector.add(rs.getObject(i));
+                }
+                data.add(vector);
+            }
+
+            tableModel.setDataVector(data, columnNames);
+            for (int i = 0; i < metaData.getColumnCount(); i++)
+            {
+               table.getColumnModel().getColumn(i).setPreferredWidth(125);
+            }
+        } 
+        catch (Exception e) {
+            LOG.log(Level.SEVERE, "Exception in Load Data", e);
+        }
+        //button.setEnabled(true);
+
+        LOG.info("END loadData method");
+    }
 }

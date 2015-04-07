@@ -173,14 +173,19 @@ public class BitsPleaseNewMember extends JFrame
       try
       {
          Statement stmt = BitsPlease.conn.createStatement();;
-         rs = stmt.executeQuery("SELECT COUNT(*) as Total FROM MemPlans");
+         rs = stmt.executeQuery("SELECT COUNT(*) as Total FROM MemPlans " +
+                                "WHERE CAST(start_date AS DATE) < CURRENT_DATE " +
+                                "AND CAST(end_date AS DATE) > CURRENT_DATE");
          while (rs.next())
          {
             stuff = new String[rs.getInt(1)];
          }
          stmt.close();
          stmt = BitsPlease.conn.createStatement();;
-         rs = stmt.executeQuery("SELECT plan_name FROM MemPlans ORDER BY plan_name");
+         rs = stmt.executeQuery("SELECT plan_name FROM MemPlans " + 
+                                "WHERE CAST(start_date AS DATE) < CURRENT_DATE " +
+                                "AND CAST(end_date AS DATE) > CURRENT_DATE " +
+                                "ORDER BY plan_name"); 
          while(rs.next())
          {
             stuff[i]=rs.getString(1).trim();
@@ -191,7 +196,7 @@ public class BitsPleaseNewMember extends JFrame
       }
       catch(SQLException e)
       {
-         System.out.println("MemPlans Select: ");
+         System.out.println("MemPlans Select: " + e);
       }
       memNum = new JLabel("      Member Number:   ");
       memOption = new JLabel("   Membership Option:    ");

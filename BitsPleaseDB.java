@@ -17,7 +17,7 @@ public class BitsPleaseDB
       {
          Connection conn = DriverManager.getConnection(DB_URL);
          
-         //dropTables(conn);
+         dropTables(conn);
          
          //buildUserTable(conn);
          
@@ -28,6 +28,8 @@ public class BitsPleaseDB
          //buildEmployeeTable(conn);
          
          //buildEquipmentTable(conn);
+         
+         buildIndCourseTable(conn);
          
          conn.close();
       }
@@ -45,11 +47,12 @@ public class BitsPleaseDB
          
          try
          {
-            stmt.execute("DROP TABLE Users");
-            stmt.execute("DROP TABLE Members");
-            stmt.execute("DROP TABLE MemPlans");
-            stmt.execute("DROP TABLE Employees");
-            stmt.execute("DROP TABLE Equipment");
+            stmt.execute("DROP TABLE IndCourses");
+            //stmt.execute("DROP TABLE Users");
+            //stmt.execute("DROP TABLE Members");
+            // stmt.execute("DROP TABLE MemPlans");
+            //stmt.execute("DROP TABLE Employees");
+            //stmt.execute("DROP TABLE Equipment");
             System.out.println(" tables dropped");
          }
          catch(SQLException e)
@@ -184,6 +187,31 @@ public class BitsPleaseDB
       catch (SQLException e)
       {
          System.out.println("MemType Error:" + e.getMessage());
+         
+      }
+   }
+   public static void buildIndCourseTable(Connection conn)
+   {
+      try
+      {
+         Statement stmt = conn.createStatement();
+         
+         stmt.execute("CREATE table IndCourses (" +
+                      "courseName Char(30) NOT NULL," +
+                      "instructor VarChar(50) NOT NULL," +
+                      "description VarChar(50)," +
+                      "length Char(10)," +
+                      "numOfSession Char(10)," +
+                      "start_date Char(15)," +
+                      "end_date Char(15)," +
+                      "PRIMARY KEY(courseName, instructor))");
+           
+        
+         System.out.println("IndCourses  table created.");
+      }
+      catch (SQLException e)
+      {
+         System.out.println("IndCourse Error:" + e.getMessage());
          
       }
    }

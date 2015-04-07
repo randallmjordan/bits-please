@@ -123,11 +123,11 @@ public class BitsPleaseBusinessReport extends JFrame
             
             if (actionCommand.equals("Maintenence Due"))
             {
-               query = "SELECT * FROM Equipment";
+               query = "SELECT * FROM Equipment WHERE CAST(nextMaintDate AS DATE) < CURRENT_DATE + 30 ";
             }
             else if(actionCommand.equals("Maintenence OverDue"))
             {
-               query = "SELECT * FROM Equipment";
+               query = "SELECT * FROM Equipment WHERE CAST(nextMaintDate AS DATE) < CURRENT_DATE";
             }
             
                 new SwingWorker<Void, Void>() {
@@ -187,6 +187,10 @@ public class BitsPleaseBusinessReport extends JFrame
             }
 
             tableModel.setDataVector(data, columnNames);
+            for (int i = 0; i < metaData.getColumnCount(); i++)
+            {
+               table.getColumnModel().getColumn(i).setPreferredWidth(125);
+            }
         } 
         catch (Exception e) {
             LOG.log(Level.SEVERE, "Exception in Load Data", e);

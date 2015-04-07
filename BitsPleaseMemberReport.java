@@ -61,7 +61,9 @@ public class BitsPleaseMemberReport extends JFrame
       tablePanel = new JPanel();
       tablePanel.setBackground(new Color(255,229,153));
       table = new JTable(tableModel);
+      
       table.setBackground(new Color(255,229,153));
+      
       tablePanel.setLayout(new BorderLayout());
       table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
       pane = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -122,8 +124,7 @@ public class BitsPleaseMemberReport extends JFrame
         String query = "";
         public void actionPerformed(ActionEvent e) 
         {
-            String actionCommand = e.getActionCommand();
-            
+            String actionCommand = e.getActionCommand();            
             if (actionCommand.equals("Members List"))
             {
                query = "SELECT memID AS \"Member Number\", lastName AS \"Last Name\", " +
@@ -198,6 +199,10 @@ public class BitsPleaseMemberReport extends JFrame
             }
 
             tableModel.setDataVector(data, columnNames);
+            for (int i = 0; i < metaData.getColumnCount(); i++)
+            {
+               table.getColumnModel().getColumn(i).setPreferredWidth(125);
+            }
         } 
         catch (Exception e) {
             LOG.log(Level.SEVERE, "Exception in Load Data", e);

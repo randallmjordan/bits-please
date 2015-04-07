@@ -215,17 +215,66 @@ public class BitsPleaseEquipmentRecords extends JFrame
    {
       public void actionPerformed(ActionEvent e)
       {
-         setVisible(false);
-         dispose();
-         //JOptionPane.showMessageDialog(null, "Good Job, " + userNameField.getText());
-        try
-        {
-            BitsPleaseMainMenu menu = new BitsPleaseMainMenu();
-        } 
-        catch (Exception x)
-        {
-        
-        }
+         String actionCommand = e.getActionCommand();
+         if (actionCommand.equals("Edit"))
+         {
+         
+         }
+         else if (actionCommand.equals("Save"))
+         {
+            try
+            {
+               Date date = dateFormat.parse(pDateField.getText());
+               date = dateFormat.parse(nextMaintField.getText());
+               date = dateFormat.parse(lastMaintField.getText());
+            }
+            catch (ParseException p)
+            {
+               JOptionPane.showMessageDialog(null, "Please use date format yyyy-dd-mm","ILLEGAL FORMAT", JOptionPane.ERROR_MESSAGE);
+               return;
+            }
+            if (!(BitsPleaseDateCheck.checkDates(pDateField.getText())) || !(BitsPleaseDateCheck.checkDates(nextMaintField.getText())) ||
+                  !(BitsPleaseDateCheck.checkDates(lastMaintField.getText())))
+            {
+               return;
+            }
+
+           try
+           {
+               Statement stmt  = BitsPlease.conn.createStatement();;
+               stmt.execute("UPDATE Equipment SET eName ='" + nameField.getText().trim() +
+                            "', eType ='" + typeField.getText().trim() +
+                            "', buyDate ='" + pDateField.getText().trim() +
+                            "', lastMaintDate ='" + lastMaintField.getText().trim() +
+                            "', nextMaintDate ='" + nextMaintField.getText().trim() +
+                            "' WHERE eqID ='" + idField.getText().trim() +"'");
+              
+              setVisible(false);
+               dispose();
+              BitsPleaseEquipmentRecords eR = new BitsPleaseEquipmentRecords();
+           } 
+           catch (Exception x)
+           {
+               System.out.println("Update equipment:" + x);
+           }
+
+            
+         }
+         else if(actionCommand.equals("Close"))
+         {
+               setVisible(false);
+               dispose();
+               
+               try
+               {
+                  BitsPleaseMainMenu menu = new BitsPleaseMainMenu();
+               } 
+               catch (Exception x)
+               {
+              
+               }
+
+         }         
       }  
    }
    private class ListListener implements ListSelectionListener
